@@ -1,0 +1,6 @@
+@LinuxServerDataminerPOC_HostAddress = http://localhost:5031
+
+GET {{LinuxServerDataminerPOC_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
