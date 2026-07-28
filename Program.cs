@@ -1,34 +1,66 @@
+using System.Xml.Serialization;
+using LinuxServerDataminerPOC.Application.Dtos;
+using LinuxServerDataminerPOC.Application.Interfaces;
+using LinuxServerDataminerPOC.Application.Options;
+using LinuxServerDataminerPOC.Application.Services;
+using LinuxServerDataminerPOC.Domain.Interfaces;
+using LinuxServerDataminerPOC.Infrastructure.Collectors;
+using LinuxServerDataminerPOC.Infrastructure.Health;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
 
-var app = builder.Build();
+builder.Host.UseSerilog();
 
-// Configure the HTTP request pipeline.
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
+try
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    Log.Information("Starting LinuxServerDataminerPOC service...");
 
-app.MapGet("/weatherforecast", () =>
+    builder.Services.Configure<MetricsOptions>(
+        builder.Configuration.GetSection(MetricsOptions.SectionName));
+
+    builder.Services.AddScoped<ILinuxMetricsCollector, RealLinuxMetricsCollector>();
+    builder.Services.AddScoped<IMetricsService, MetricsService>();
+
+    builder.Services.AddHealthChecks()
+        .AddCheck<ServerHealthCheck>("linux_health_check");
+
+    var app = builder.Build();
+
+    app.UseSerilogRequestLogging();
+
+    app.MapGet("/api/metrics", async (IMetricsService metricsService, CancellationToken ct) =>
+    {
+        var metrics = await metricsService.GetCurrentMetricsAsync(ct);
+        return Results.Ok(metrics);
+    });
+
+    app.MapGet("/api/metrics/xml", async (IMetricsService metricsService, CancellationToken ct) =>
+    {
+        var metrics = await metricsService.GetCurrentMetricsAsync(ct);
+        
+        var serializer = new XmlSerializer(typeof(ServerMetricsDto));
+        using var stringWriter = new StringWriter();
+        serializer.Serialize(stringWriter, metrics);
+
+        return Results.Content(stringWriter.ToString(), "application/xml");
+    });
+
+    app.MapHealthChecks("/health");
+
+    app.Run();
+}
+catch (Exception ex)
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-});
-
-app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    Log.CloseAndFlush();
 }

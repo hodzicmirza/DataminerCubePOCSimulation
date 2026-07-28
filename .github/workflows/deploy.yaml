@@ -1,0 +1,56 @@
+name: Deployanje LinuxServerDataminerPOC API-ja na Linux server
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    environment: dataminerEnv
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login na Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{vars.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
+
+      - name: Build i push Docker image na Docker Hub
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{vars.DOCKERHUB_USERNAME}}/linuxserver-dataminer-poc:latest
+
+      - name: Zaustavi stare kontejnere
+        run: |
+          docker stop linuxserver-dataminer-poc 2>/dev/null || true
+          docker rm linuxserver-dataminer-poc 2>/dev/null || true
+
+      - name: Pokreni novi kontejner
+        run: |
+          docker run -d \
+            --name linuxserver-dataminer-poc \
+            --restart unless-stopped \
+            -p 5051:5051 \
+            -v /proc:/host/proc:ro \
+            -e ASPNETCORE_ENVIRONMENT=Production \
+            -e ASPNETCORE_URLS=http://+:5051 \
+            -e TZ=Europe/Sarajevo \
+            ${{ vars.DOCKERHUB_USERNAME }}/linuxserver-dataminer-poc:latest
+
+      - name: Provjeri deployment
+        run: |
+          sleep 5
+          if docker ps | grep -q linuxserver-dataminer-poc; then
+            echo "Deployment uspjesan"
+            docker logs --tail 20 linuxserver-dataminer-poc
+          else
+            echo "Deployment pao"
+            exit 1
+          fi
