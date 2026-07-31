@@ -380,6 +380,7 @@ U DataMiner Studio-u kreira se novi Protocol XML fajl. Ispod je kompletan protok
 6. Kliknuti **"Create"**.
 7. Element će se pojaviti u listi elemenata i automatski početi prikupljati podatke.
 8. Dvostrukim klikom na element otvara se prozor sa svim metrikama na "Performance" stranici.
+9. **NAPOMENA**: U slučaju da se podaci ne učitaju u Dataminer Cube-u, potrebno je prvenstveno ručno otići na `https://dataminercubepocsimulation.onrender.com/api/metrics/xml`     i sačekati da bi se Render-ov server pokrenuo. Server je besplatan i zbog toga je potrebno pokretanje.
 
 ### Korak 4: Vizuelizacija i monitoring
 
@@ -402,66 +403,6 @@ Video prezentacija rada servisa, prikaza XML odgovora u realnom vremenu i integr
 **Direktna veza na video u repozitoriju:** [assets/demo.mp4](assets/demo.mp4)
 
 ---
-
-## 6. Tehničke specifikacije
-
-### Zahtjevi sistema
-- **.NET 10** ili noviji
-- **Linux** operativni sistem (za realno prikupljanje metrika)
-- **Docker** (opciono, za kontejnerizaciju)
-
-### Korištene tehnologije
-- **ASP.NET Core 10** - Web API framework
-- **Serilog** - Strukturirano logovanje
-- **System.Xml.Serialization** - XML serijalizacija
-- **Microsoft.Extensions.Diagnostics.HealthChecks** - Health check endpoint
-
-### Portovi i endpointi
-| Endpoint | Metoda | Format | Opis |
-|----------|--------|--------|------|
-| `/api/metrics` | GET | JSON | Sve metrike u JSON formatu |
-| `/api/metrics/xml` | GET | XML | Sve metrike u XML formatu (za DataMiner) |
-| `/health` | GET | JSON | Status zdravlja aplikacije |
-
----
-
-## 7. Rješavanje problema (Troubleshooting)
-
-### Aplikacija ne prikuplja metrike
-- Provjeriti da li se aplikacija izvršava na Linux sistemu
-- Provjeriti da li `/proc` direktorijum postoji i da li je čitljiv
-- U Docker okruženju, provjeriti da li je volumen `/proc` mapiran
-
-### DataMiner ne prima podatke
-- Provjeriti da li je URL ispravan u DataMiner konfiguraciji
-- Testirati XML endpoint ručno sa `curl`-om
-- Provjeriti DataMiner logove za greške u parsiranju XML-a
-
-### Health check vraća "Unhealthy"
-- Provjeriti da li je CPU opterećenje preko 95%
-- Provjeriti da li aplikacija ima pristup `/proc` fajlovima
-- Restartovati aplikaciju
-
----
-
-## 8. Budući razvoj i proširenja
-
-- [ ] Dodavanje podrške za više servera (multi-tenancy)
-- [ ] Implementacija WebSocket-a za real-time update
-- [ ] Dodavanje autentifikacije (JWT)
-- [ ] Proširenje metrika (network I/O, procesi, temperatura)
-- [ ] Dodavanje Prometheus exporter-a
-- [ ] Implementacija caching-a za smanjenje opterećenja
-
----
-
-## 9. Licenca i kontakt
-
-**Autor:** Mirza Hodžić  
-**Projekat:** LinuxServerDataminerPOC  
-**Verzija:** 1.0.0  
-**Licenca:** MIT  
-
 Za dodatne informacije, pitanja ili podršku, kontaktirajte autora putem GitHub repozitorija.
 
 ---
