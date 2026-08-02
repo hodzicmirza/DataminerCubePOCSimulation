@@ -5,8 +5,6 @@ Ovaj projekat predstavlja Proof of Concept (POC) rješenje razvijeno u .NET 10 o
 Aplikacija je dizajnirana po principima čiste arhitekture (Clean Architecture) i SOLID principa, pri čemu su svi slojevi organizovani unutar jednog .NET projekta radi jednostavnosti i lakšeg održavanja.
 
 ---
-
-# Demo video:
 ![Demo](demo.gif)
 
 
