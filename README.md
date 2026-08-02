@@ -7,7 +7,7 @@ Aplikacija je dizajnirana po principima čiste arhitekture (Clean Architecture) 
 ---
 
 # DataMiner Linux Server Monitoring
-<img src="[path/to/your/file.gif](https://files.hodzicmirza.com/output1.gif)" width="500" alt="Demo">
+![Demo](demo.gif)
 
 
 ## 1. Arhitektura projekta i struktura foldera
