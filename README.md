@@ -6,6 +6,10 @@ Aplikacija je dizajnirana po principima čiste arhitekture (Clean Architecture) 
 
 ---
 
+# DataMiner Linux Server Monitoring
+
+![DataMiner POC Linux Server Demo](./demo.gif)
+
 ## 1. Arhitektura projekta i struktura foldera
 
 Struktura projekta je podijeljena po logičkim cjelinama (slojevima):
@@ -522,12 +526,6 @@ Nakon kreiranja elementa, DataMiner Cube će automatski:
 - Aktivirati alarme kada vrijednosti pređu definisane pragove
 - Omogućiti kreiranje dashboarda sa prilagođenim prikazima
 
----
-
-## 5. Demonstracija i Video Prikaz (Live Demo)
-
-<video src="https://files.hodzicmirza.com/DataminerPOCLinuxServerDemo.mp4" controls width="100%" >
-</video>
 ---
 
 Za dodatne informacije, pitanja ili podršku, kontaktirajte autora putem GitHub repozitorija.
