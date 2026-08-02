@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Protocol xmlns="http://www.skyline.be/config/protocol">
+	<Name>MirzaHodzicServerMonitoring</Name>
+	<Version>1.0.8.2</Version>
+	<Description>FINAL verzija nakon 50 mini verzija, dva dana patnje hahah</Description>
+	<Vendor>Mirza Hodzic</Vendor>
+	<ElementType>Http</ElementType>
+	<Type options="https">http</Type>
+	<Provider>Mirza Hodzic</Provider>
+	<Compliancies>
+		<MinimumRequiredVersion>9.0.0.0</MinimumRequiredVersion>
+	</Compliancies>
+	<Display pageOrder="Performance" defaultPage="Performance"/>
+
+	<Params>
+		<Param id="10">
+			<Name>HttpStatusCode</Name>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+			</Interprete>
+			<Display><RTDisplay>false</RTDisplay></Display>
+			<Measurement><Type>string</Type></Measurement>
+		</Param>
+
+		<Param id="99">
+			<Name>ResponseStatusCode</Name>
+			<Description>HTTP Status Kod</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+				<DefaultValue>200 OK</DefaultValue>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Positions><Position><Page>Performance</Page><Row>7</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+		</Param>
+
+		<Param id="101" trending="true">
+			<Name>CpuUsagePercentage</Name>
+			<Description>CPU opterećenje servera</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+				<DefaultValue>0</DefaultValue>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Units>%</Units>
+				<Positions><Position><Page>Performance</Page><Row>0</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+			<Alarm><Monitored>true</Monitored><WaH>70</WaH><MaH>85</MaH><CH>95</CH></Alarm>
+		</Param>
+
+		<Param id="102" trending="true">
+			<Name>MemoryUsagePercentage</Name>
+			<Description>Iskorištenost RAM-a (%)</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+				<DefaultValue>0</DefaultValue>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Units>%</Units>
+				<Positions><Position><Page>Performance</Page><Row>1</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+			<Alarm><Monitored>true</Monitored><WaH>80</WaH><MaH>90</MaH><CH>95</CH></Alarm>
+		</Param>
+
+		<Param id="103">
+			<Name>SystemStatus</Name>
+			<Description>Status servera</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+				<DefaultValue>OK</DefaultValue>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Positions><Position><Page>Performance</Page><Row>2</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+			<Alarm>
+				<Monitored>true</Monitored>
+				<Possible>
+					<Value value="WARNING" severity="minor">Upozorenje</Value>
+					<Value value="CRITICAL" severity="critical">Kritično</Value>
+				</Possible>
+			</Alarm>
+		</Param>
+
+		<Param id="104">
+			<Name>TotalMemoryMb</Name>
+			<Description>Ukupno RAM (MB)</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+				<DefaultValue>0</DefaultValue>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Units>MB</Units>
+				<Positions><Position><Page>Performance</Page><Row>3</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+		</Param>
+
+		<Param id="105">
+			<Name>UsedMemoryMb</Name>
+			<Description>Iskorišteno RAM (MB)</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+				<DefaultValue>0</DefaultValue>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Units>MB</Units>
+				<Positions><Position><Page>Performance</Page><Row>4</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+		</Param>
+
+		<Param id="106" trending="true">
+			<Name>DiskUsagePercentage</Name>
+			<Description>Iskorištenost diska (%)</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+				<DefaultValue>0</DefaultValue>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Units>%</Units>
+				<Positions><Position><Page>Performance</Page><Row>5</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+		</Param>
+
+		<Param id="107">
+			<Name>TimestampUtc</Name>
+			<Description>Vrijeme očitavanja (UTC)</Description>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Positions><Position><Page>Performance</Page><Row>6</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+		</Param>
+
+		<Param id="1000">
+			<Name>RawXmlResponse</Name>
+			<Type>read</Type>
+			<Interprete>
+				<RawType>other</RawType>
+				<LengthType>next param</LengthType>
+				<Type>string</Type>
+			</Interprete>
+			<Display>
+				<RTDisplay>true</RTDisplay>
+				<Positions><Position><Page>Performance</Page><Row>8</Row><Column>0</Column></Position></Positions>
+			</Display>
+			<Measurement><Type>string</Type></Measurement>
+		</Param>
+	</Params>
+
+	<QActions>
+		<QAction id="1" name="ParseXmlResponse" encoding="csharp" triggers="1000">
+			<![CDATA[
+using System;
+using System.Xml;
+using Skyline.DataMiner.Scripting;
+
+public class QAction
+{
+    public static void Run(SLProtocol protocol)
+    {
+        try
+        {
+            string xml = Convert.ToString(protocol.GetParameter(1000));
+            if (string.IsNullOrEmpty(xml)) return;
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            protocol.SetParameter(101, GetTagValue(doc, "CpuUsagePercentage"));
+            protocol.SetParameter(102, GetTagValue(doc, "MemoryUsagePercentage"));
+            protocol.SetParameter(103, GetTagValue(doc, "SystemStatus"));
+            protocol.SetParameter(104, GetTagValue(doc, "TotalMemoryMb"));
+            protocol.SetParameter(105, GetTagValue(doc, "UsedMemoryMb"));
+            protocol.SetParameter(106, GetTagValue(doc, "DiskUsagePercentage"));
+            protocol.SetParameter(107, GetTagValue(doc, "TimestampUtc"));
+            protocol.SetParameter(99, "200 OK");
+        }
+        catch (Exception ex)
+        {
+            protocol.Log("QA1 Error: " + ex.Message, LogType.Error, LogLevel.NoLogging);
+        }
+    }
+
+    private static string GetTagValue(XmlDocument doc, string tag)
+    {
+        XmlNodeList nodes = doc.GetElementsByTagName(tag);
+        return nodes.Count > 0 ? nodes[0].InnerText : "";
+    }
+}
+]]>
+		</QAction>
+	</QActions>
+
+	<HTTP>
+		<Session id="1" name="GetServerMetrics">
+			<Connection id="1">
+				<Request verb="GET" url="/api/metrics/xml"/>
+				<Response statusCode="10">
+					<Content pid="1000"/>
+				</Response>
+			</Connection>
+		</Session>
+	</HTTP>
+
+	<Groups>
+		<Group id="1">
+			<Name>GetServerMetricsGroup</Name>
+			<Type>poll</Type>
+			<Content>
+				<Session>1</Session>
+			</Content>
+		</Group>
+	</Groups>
+
+	<Timers>
+		<Timer id="1" On="startup">
+			<Name>5-Second Polling Timer</Name>
+			<Time>5000</Time>
+			<Interval>5000</Interval>
+			<Content>
+				<Group>1</Group>
+			</Content>
+		</Timer>
+	</Timers>
+</Protocol>
