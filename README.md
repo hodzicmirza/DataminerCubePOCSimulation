@@ -6,7 +6,7 @@ Aplikacija je dizajnirana po principima čiste arhitekture (Clean Architecture) 
 
 ---
 
-# DataMiner Linux Server Monitoring
+# Demo video:
 ![Demo](demo.gif)
 
 
